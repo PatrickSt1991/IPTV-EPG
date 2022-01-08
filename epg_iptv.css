@@ -1,0 +1,22 @@
+body {
+	max-width: 550px;
+	font-family: Arial;
+}
+
+.affected-row {
+	background: #cae4ca;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: #bdd6bd 1px solid;
+	border-radius: 2px;
+	color: #6e716e;
+}
+
+.error-message {
+	background: #eac0c0;
+	padding: 10px;
+	margin-bottom: 20px;
+	border: #dab2b2 1px solid;
+	border-radius: 2px;
+	color: #5d5b5b;
+}

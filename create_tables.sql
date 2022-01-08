@@ -1,0 +1,76 @@
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `epg_channels`
+--
+
+CREATE TABLE `epg_channels` (
+  `EntityId` int(11) NOT NULL,
+  `channelId` varchar(255) NOT NULL,
+  `channelName` varchar(255) NOT NULL,
+  `channelIcon` varchar(255) NOT NULL,
+  `channelUrl` varchar(255) NOT NULL,
+  `channelName4K` varchar(255) NOT NULL,
+  `channelNameNormal` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `epg_program`
+--
+
+CREATE TABLE `epg_program` (
+  `EntityId` int(11) NOT NULL,
+  `programStartTime` varchar(255) NOT NULL,
+  `programEndTime` varchar(255) NOT NULL,
+  `programChannel` varchar(255) NOT NULL,
+  `programTitle` varchar(255) NOT NULL,
+  `programTitleLang` varchar(255) NOT NULL,
+  `programIcon` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Indexen voor geëxporteerde tabellen
+--
+
+--
+-- Indexen voor tabel `epg_channels`
+--
+ALTER TABLE `epg_channels`
+  ADD PRIMARY KEY (`EntityId`);
+
+--
+-- Indexen voor tabel `epg_program`
+--
+ALTER TABLE `epg_program`
+  ADD PRIMARY KEY (`EntityId`);
+
+--
+-- AUTO_INCREMENT voor geëxporteerde tabellen
+--
+
+--
+-- AUTO_INCREMENT voor een tabel `epg_channels`
+--
+ALTER TABLE `epg_channels`
+  MODIFY `EntityId` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT voor een tabel `epg_program`
+--
+ALTER TABLE `epg_program`
+  MODIFY `EntityId` int(11) NOT NULL AUTO_INCREMENT;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
