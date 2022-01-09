@@ -17,6 +17,6 @@ Before you begin make sure to update _config.php.
 
 2. Run fetch_epg.php, this file will fetch all the channels and program information from the base XML file, tries to match it with the values from the m3u files and puts it in to the database.
  
-3. Run generate_epg.php, this file will generate the XML file with the channels en programmes with the syntax as it's in the m3u file. 
-  <B>NOTE: It takes some power to create the XML file so do use Apache2 / PHP and not NGINX / FPM-PHP.</b>
+3. Run generate_epg.php, this file will generate the XML file with the channels en programmes with the syntax as it's in the m3u file. <br/>
+  <B>NOTE: It takes some power to create the XML file so do use Apache2 / PHP and not NGINX / FPM-PHP.</b><br/>
   <B>NOTE: Creating the custom XML file can take a long time, cause of all the data that needs to be processed, be patience, or run it via a automated cronjob</b>
