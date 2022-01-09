@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="epg_iptv.css">
 <?php
+include '_config.php';
+
 ignore_user_abort(true);
 set_time_limit(0);
 
@@ -9,71 +11,76 @@ $deleteOld = false;
 $channelCheck = false;
 $programCheck = false;
 
-
 $epgProgramArray = array();
 $epgChannelArray = array();
 
-$conn = mysqli_connect("localhost", "****", "*****", "****");
-if (!$conn) {
-	die('Could not connect: ' . mysqli_error());
+$continue = true;
+
+$epgM3UChannelResult = mysqli_query($conn, "SELECT count(EntityId) as ChannelCount FROM epg_m3ufile") or die ("Error in query: ".mysqli_error()); 
+$m3uTableCheck = mysqli_fetch_assoc($epgM3UChannelResult);
+
+if ($m3uTableCheck['ChannelCount'] == 0){ 
+	$error_message = "Channels are not yet ripped from the m3u file!";
+	$continue = false;
 }
 
+if ($continue == true){
 
-if (file_exists('custom.nl.epg.xml')) 
-{
-	$deleteOld = true;
-	unlink('custom.nl.epg.xml');
-}
-
-$fetch_programEpg = "SELECT * FROM epg_program";
-
-if($result_programEpg = mysqli_query($conn, $fetch_programEpg)){
-	while ($programEpg_row = mysqli_fetch_assoc($result_programEpg)){
-		array_push($epgProgramArray, $programEpg_row);
-		
-		if(count($epgProgramArray)){
-			$channelCheck = true;
-			$messageChannel = 'SUCCES: Succesfully filled Custom EPG XML file with program data.';
-		}
+	if (file_exists($customEpgFile)) 
+	{
+		$deleteOld = true;
+		unlink($customEpgFile);
 	}
-	
-	mysqli_free_result($result_programEpg);
-}
 
-$fetch_channelEpg = "SELECT * FROM epg_channels";
+	$fetch_programEpg = "SELECT * FROM epg_program";
 
-if($result_channelEpg = mysqli_query($conn, $fetch_channelEpg)){
-	while ($channelEpg_row = mysqli_fetch_assoc($result_channelEpg)){
-		array_push($epgChannelArray, $channelEpg_row);
-		
-		if(count($epgChannelArray)){
-			$programCheck = true;
-			$messageProgram = 'SUCCES: Succesfully filled Custom EPG XML file with channel data.';
+	if($result_programEpg = mysqli_query($conn, $fetch_programEpg)){
+		while ($programEpg_row = mysqli_fetch_assoc($result_programEpg)){
+			array_push($epgProgramArray, $programEpg_row);
+			
+			if(count($epgProgramArray)){
+				$channelCheck = true;
+				$messageChannel = 'SUCCES: Succesfully filled Custom EPG XML file with program data.';
+			}
 		}
+		
+		mysqli_free_result($result_programEpg);
 	}
-	
-	mysqli_free_result($result_channelEpg);
+
+	$fetch_channelEpg = "SELECT * FROM epg_channels";
+
+	if($result_channelEpg = mysqli_query($conn, $fetch_channelEpg)){
+		while ($channelEpg_row = mysqli_fetch_assoc($result_channelEpg)){
+			array_push($epgChannelArray, $channelEpg_row);
+			
+			if(count($epgChannelArray)){
+				$programCheck = true;
+				$messageProgram = 'SUCCES: Succesfully filled Custom EPG XML file with channel data.';
+			}
+		}
+		
+		mysqli_free_result($result_channelEpg);
+	}
+
+
+	if(($channelCheck == true) && ($programCheck == true)){
+		createXMLfile($epgProgramArray, $epgChannelArray, $customEpgFile);
+	}else{
+		$messageChannel = 'FAIL: Failed to fill Custom EPG XML file with channel data.';
+		$messageProgram = 'FAIL: Failed to fill Custom EPG XML file with program data.';
+	}
+
+	mysqli_close($conn);
 }
-
-if(($channelCheck == true) && ($programCheck == true)){
-	createXMLfile($epgProgramArray, $epgChannelArray);
-}else{
-	$messageChannel = 'FAIL: Failed to fill Custom EPG XML file with channel data.';
-	$messageProgram = 'FAIL: Failed to fill Custom EPG XML file with program data.';
-}
-
-mysqli_close($conn);
-
-
-function createXMLfile($epgProgramArray, $epgChannelArray){
-	$filePath = 'custom.nl.epg.xml';
+function createXMLfile($epgProgramArray, $epgChannelArray, $customEpgFile){
+	$filePath = $customEpgFile;
 	$dom = new DOMDocument('1.0', 'utf-8');
 	$root = $dom->createElement('tv');
 
 	foreach($epgChannelArray as $channel){
 		//TV Channels variables
 		$channelId = $channel['channelId'];
-		$channelDisplayName = $channel['channelName4K'];
+		$channelDisplayName = $channel['channelName'];
 		$channelIconSrc = $channel['channelIcon'];
 		$channelUrl = $channel['channelUrl'];
 		
@@ -131,11 +138,19 @@ if($deleteOld == true){
 Delete the OLD XML file!
 </div>
 <?php
-
 }
 ?>
 <div class="affected-row">
-    <?php  echo $messageChannel ."<br/>". $messageProgram; ?>
+	<?php  
+	if ($continue == true){
+	echo $messageChannel ."<br/>". $messageProgram; 
+	}?>
 	<br/><br/>
-	Enjoy the Power of custom EPG!
+	Enjoy the Power of Patrick EPG!
 </div>
+<?php 
+if (! empty($error_message)) { ?>
+<div class="error-message">
+    <?php echo nl2br($error_message); ?>
+</div>
+<?php } ?>
