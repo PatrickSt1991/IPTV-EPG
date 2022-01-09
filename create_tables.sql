@@ -1,3 +1,11 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.6deb5
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost:3306
+-- Gegenereerd op: 09 jan 2022 om 09:54
+-- Serverversie: 10.0.28-MariaDB-2+b1
+-- PHP-versie: 7.3.33-1+0~20211119.91+debian10~1.gbp618351
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -8,6 +16,9 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
+--
+-- Database: `iptv`
+--
 
 -- --------------------------------------------------------
 
@@ -20,9 +31,18 @@ CREATE TABLE `epg_channels` (
   `channelId` varchar(255) NOT NULL,
   `channelName` varchar(255) NOT NULL,
   `channelIcon` varchar(255) NOT NULL,
-  `channelUrl` varchar(255) NOT NULL,
-  `channelName4K` varchar(255) NOT NULL,
-  `channelNameNormal` varchar(255) NOT NULL
+  `channelUrl` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `epg_m3ufile`
+--
+
+CREATE TABLE `epg_m3ufile` (
+  `EntityId` int(11) NOT NULL,
+  `m3uChannelName` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -52,6 +72,12 @@ ALTER TABLE `epg_channels`
   ADD PRIMARY KEY (`EntityId`);
 
 --
+-- Indexen voor tabel `epg_m3ufile`
+--
+ALTER TABLE `epg_m3ufile`
+  ADD PRIMARY KEY (`EntityId`);
+
+--
 -- Indexen voor tabel `epg_program`
 --
 ALTER TABLE `epg_program`
@@ -65,6 +91,11 @@ ALTER TABLE `epg_program`
 -- AUTO_INCREMENT voor een tabel `epg_channels`
 --
 ALTER TABLE `epg_channels`
+  MODIFY `EntityId` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT voor een tabel `epg_m3ufile`
+--
+ALTER TABLE `epg_m3ufile`
   MODIFY `EntityId` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT voor een tabel `epg_program`
