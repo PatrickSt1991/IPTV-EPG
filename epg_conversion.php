@@ -70,7 +70,7 @@
 							document.getElementById("updater"+channelId).innerText = 'Changed!';
 						}
 					};
-					xmlhttp.open("GET", "epg_conversion_actions.php?channelId="+channelId+"&channelName=" +newChannel+"&action=update", true);
+					xmlhttp.open("GET", "epg_actions.php?channelId="+channelId+"&channelName=" +newChannel+"&action=update", true);
 					xmlhttp.send();
 				}else{
 					alert('You are supposed to fill something in as a channel name!');
@@ -86,7 +86,7 @@
 						document.getElementById("cleaner"+channelId).innerText = 'Cleared!';
 					}
 				};
-				xmlhttp.open("GET", "epg_conversion_actions.php?channelId="+channelId+"&action=clear", true);
+				xmlhttp.open("GET", "epg_actions.php?channelId="+channelId+"&action=clear", true);
 				xmlhttp.send();
 			}
 		</script>

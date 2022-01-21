@@ -162,7 +162,7 @@ function createXMLfile($epgProgramArray, $epgChannelArray, $customEpgFile){
 			echo $messageChannel ."<br/>". $messageProgram; 
 			}?>
 			<br/><br/>
-			Enjoy your custom EPG!
+			Enjoy the Power of Patrick EPG!
 		</div>
 		<?php 
 		if (! empty($error_message)) { ?>

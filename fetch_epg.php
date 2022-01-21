@@ -17,6 +17,7 @@ if ($m3uTableCheck['ChannelCount'] == 0){
 }
 
 if ($continue == true){
+	//Check if tables are empty if not, clean tables.
 	$epgProgramResult = mysqli_query($conn, "SELECT count(EntityId) as ProgramCount FROM epg_program") or die ("Error in query: ".mysqli_error()); 
 	$epgChannelResult = mysqli_query($conn, "SELECT count(EntityId) as ChannelCount FROM epg_channels") or die ("Error in query: ".mysqli_error()); 
 

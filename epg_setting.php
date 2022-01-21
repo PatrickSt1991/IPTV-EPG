@@ -57,7 +57,7 @@
                                 <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-search"></i></div>
                                 <h2 class="fs-4 fw-bold">Your m3u filename:</h2>
 								<input type="text" id="m3ufile" value="<?php echo $epg_value[1]; ?>"><br/><br/>
-								<button id="m3ufile_update" type="button" class="button" onclick="updateChannel(document.getElementById(m3ufile).value">Update</button>
+								<button id="configUpdate_m3u_file" type="button" class="button" onclick="updateConfig(document.getElementById('m3ufile').value, 'm3u_file')">Update</button>
                             </div>
                         </div>
                     </div>
@@ -66,8 +66,8 @@
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                                 <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-cloud-download"></i></div>
 								<h2 class="fs-4 fw-bold">Base XML Url:</h2>
-								<input type="text" class="w3-input" value="<?php echo $epg_value[3]; ?>"><br/><br/>
-								<button id="m3ufile_update" type="button" class="button" onclick="updateChannel(document.getElementById(baseurlxml).value">Update</button>
+								<input type="text" id="baseurlxml" value="<?php echo $epg_value[2]; ?>"><br/><br/>
+								<button id="configUpdate_basexml" type="button" class="button" onclick="updateConfig(document.getElementById('baseurlxml').value, 'basexml')">Update</button>
                             </div>
                         </div>
                     </div>
@@ -76,14 +76,32 @@
                             <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
                                 <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-check-circle"></i></div>
                                 <h2 class="fs-4 fw-bold">XML Output filename:</h2>
-								<input type="text" id="m3ufile" value="<?php echo $epg_value[2]; ?>"><br/><br/>
-								<button id="m3ufile_update" type="button" class="button" onclick="updateChannel(document.getElementById(baseurlxml).value">Update</button>
+								<input type="text" id="xmloutput" value="<?php echo $epg_value[3]; ?>"><br/><br/>
+								<button id="configUpdate_xmloutputfile" type="button" class="button" onclick="updateConfig(document.getElementById('xmloutput').value, 'xmloutputfile')">Update</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+		<script>
+			function updateConfig(configSetting, settingField)
+			{
+				if(configSetting != '' && settingField != ''){
+					var xmlhttp = new XMLHttpRequest();
+					xmlhttp.onreadystatechange = function() {
+						if (xmlhttp.readyState == 4 && xmlhttp.status == 200) 
+						{
+							document.getElementById("configUpdate_"+settingField).innerText = 'Changed!';
+						}
+					};
+					xmlhttp.open("GET", "epg_actions.php?config="+configSetting+"&setting=" +settingField+"&action=setting", true);
+					xmlhttp.send();
+				}else{
+					alert('You are supposed to fill something in!');
+				}
+			}
+		</script>
         <!-- Footer-->
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">Feel free to use and modify to your needs<br/><a href="https://github.com/PatrickSt1991/IPTV-EPG" style="color: #FFF; text-decoration: none;">https://github.com/PatrickSt1991/IPTV-EPG</a></p></div>

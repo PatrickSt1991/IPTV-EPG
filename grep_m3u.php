@@ -50,11 +50,11 @@
 		}
 		if($affectedRowM3u != 0){
 			$part0 = "SUCCES";
-			$part1 = $affectedRowM3u . " channels found and inserted";
+			$part1 = $affectedRowM3u . " channels found and inserted from file: " . $m3u_file;
 			
 			$message = $part0 . "<br/>" . $part1;
 		} else {
-			$message = "Something went wrong importing the channels!";
+			$message = "Something went wrong importing the channels from file: " . $m3u_file;
 		}
 	}
 if($continue == true){
