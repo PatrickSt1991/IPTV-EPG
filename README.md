@@ -20,5 +20,5 @@ Click on the top right on the sliders and fill in the required information when 
 Because I only wanted the Dutch channels I added some filters in the script to prevent anything else comming in the file, if you want to modify it please take a look at grep_m3u.php, line 20
 "if((strpos($line, 'group-title') == true) && (strpos($line, 'tvg-name="#####') == false)) {"
 
-<B>NOTE: Fetching the programs and channelscan take a while, cause of all the data that needs to be processed, be patience, or run it via a automated cronjob</b>
+<B>NOTE: Fetching the programs and channelscan take a while, cause of all the data that needs to be processed, be patience, or run it via a automated cronjob</b><br/>
 <B>NOTE: It takes some power to create the XML file so do use Apache2 / PHP and not NGINX / FPM-PHP.</b><br/>
