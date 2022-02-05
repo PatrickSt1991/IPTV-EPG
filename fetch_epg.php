@@ -17,7 +17,6 @@ if ($m3uTableCheck['ChannelCount'] == 0){
 }
 
 if ($continue == true){
-	//Check if tables are empty if not, clean tables.
 	$epgProgramResult = mysqli_query($conn, "SELECT count(EntityId) as ProgramCount FROM epg_program") or die ("Error in query: ".mysqli_error()); 
 	$epgChannelResult = mysqli_query($conn, "SELECT count(EntityId) as ChannelCount FROM epg_channels") or die ("Error in query: ".mysqli_error()); 
 
@@ -37,12 +36,25 @@ if ($continue == true){
 		$channel_icon = mysqli_real_escape_string($conn, (string)$canal->icon['src']);
 		$channel_url = mysqli_real_escape_string($conn, (string)$canal->{'url'});
 
-		$sqlUpdateChannel = "SELECT m3uChannelName FROM epg_m3ufile WHERE m3uChannelName LIKE '%" . $channel_name . "%' OR guidChannelName LIKE '%" . $channel_name ."%' ORDER BY EntityId DESC LIMIT 1";
-		$sqlUpdateChannel_result = mysqli_query($conn, $sqlUpdateChannel);
-		$channel_name_m3u = mysqli_fetch_array($sqlUpdateChannel_result);
-		$channel_name_m3u = $channel_name_m3u['m3uChannelName'];
-		if(($channel_name_m3u != '') || ($channel_name_m3u != null)){
-			$channel_name = $channel_name_m3u;
+		$sqlGhostChannel = "SELECT customName FROM epg_conversion WHERE m3uChannelName = '" . $channel_name . "'";
+		$sqlGhostChannel_result = mysqli_query($conn, $sqlGhostChannel);
+		$GhostCustomName = mysqli_fetch_assoc($sqlGhostChannel_result);
+		$CustomGhostName = $GhostCustomName['customName'];
+		
+		if(isset($CustomGhostName)){
+			print($CustomGhostName);
+		}
+		
+		if(!isset($CustomGhostName)){
+			$sqlUpdateChannel = "SELECT m3uChannelName FROM epg_m3ufile WHERE m3uChannelName LIKE '%" . $channel_name . "%' OR guidChannelName LIKE '%" . $channel_name ."%' ORDER BY EntityId DESC LIMIT 1";
+			$sqlUpdateChannel_result = mysqli_query($conn, $sqlUpdateChannel);
+			$channel_name_m3u = mysqli_fetch_array($sqlUpdateChannel_result);
+			$channel_name_m3u = $channel_name_m3u['m3uChannelName'];
+			if(($channel_name_m3u != '') || ($channel_name_m3u != null)){
+				$channel_name = $channel_name_m3u;
+			}
+		}else{
+			$channel_name = $CustomGhostName;
 		}
 		
 		$sql_insertChannel = "INSERT INTO epg_channels (channelId, channelName, channelIcon, channelUrl) VALUES ('" . $channel_id . "', '" . $channel_name . "', '" . $channel_icon . "', '" . $channel_url . "')";

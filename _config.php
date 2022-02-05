@@ -1,13 +1,16 @@
 <?php
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
 
 	$hostname = 'localhost';
-	$database = '**********';
-	$username = '**********';
-	$password = '**********';
+	$database = 'iptv';
+	$username = '********';
+	$password = '********';
 
-	$conn = mysqli_connect($hostname, $database, $username, $password);
+	$conn = mysqli_connect($hostname, $username, $password, $database);
 	if (!$conn) {
-		die('Could not connect: ' . mysqli_error());
+		die('Could not connect: ' . mysqli_affected_rows_error());
 	}
 
 	$epgConfigSetting = mysqli_query($conn, "SELECT * FROM epg_config") or die ("Error in query: ".mysqli_error()); 
