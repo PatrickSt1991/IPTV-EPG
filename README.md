@@ -22,3 +22,10 @@ Just look through the settings and pages, you also have the ability to put manua
 
 <B>NOTE: Fetching the programs and channelscan take a while, cause of all the data that needs to be processed, be patience, or run it via a automated cronjob</b><br/>
 <B>NOTE: It takes some power to create the XML file so do use Apache2 / PHP and not NGINX / FPM-PHP.</b><br/>
+
+<p align="center">
+  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/PatrickSt1991/IPTV-EPG/main/index.png"><img src="https://github.com/PatrickSt1991/IPTV-EPG/blob/main/index.png?raw=true" width="700" style="max-width:100%;"></a>
+</p>
+<p align="center">
+  <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/PatrickSt1991/IPTV-EPG/main/settings.png"><img src="https://github.com/PatrickSt1991/IPTV-EPG/blob/main/settings.png?raw=true" width="700" style="max-width:100%;"></a>
+</p>
