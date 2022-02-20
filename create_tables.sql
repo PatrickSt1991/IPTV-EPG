@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Gegenereerd op: 05 feb 2022 om 17:24
+-- Gegenereerd op: 20 feb 2022 om 08:40
 -- Serverversie: 10.3.31-MariaDB-0+deb10u1
 -- PHP-versie: 7.4.27
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `iptv`
 --
-CREATE DATABASE IF NOT EXISTS `iptv` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `iptv`;
 
 -- --------------------------------------------------------
 
@@ -54,9 +52,25 @@ CREATE TABLE `epg_config` (
 --
 
 INSERT INTO `epg_config` (`EntityId`, `epg_setting`, `epg_value`) VALUES
-(1, 'm3u_file', 'dummy_channel_file.m3u'),
+(1, 'm3u_file', 'download_iptv.m3u'),
 (2, 'basexml', 'https://iptv-org.github.io/epg/guides/nl/delta.nl.epg.xml'),
-(3, 'xmloutputfile', 'custom.dummy.nl.epg.xml');
+(3, 'xmloutputfile', 'custom.nl.epg.xml'),
+(4, 'Original_M3U_File', 'on'),
+(5, 'EPG_Conversion_Table', 'on'),
+(6, 'm3uoutputfile', 'custom_iptv.m3u'),
+(7, 'url_inputfile', 'http://youriptvurl.com/get?username=123456789&password=987654321');
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `epg_conversion`
+--
+
+CREATE TABLE `epg_conversion` (
+  `EntityId` int(11) NOT NULL,
+  `m3uChannelName` varchar(255) DEFAULT NULL,
+  `customName` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -118,6 +132,12 @@ ALTER TABLE `epg_config`
   ADD PRIMARY KEY (`EntityId`);
 
 --
+-- Indexen voor tabel `epg_conversion`
+--
+ALTER TABLE `epg_conversion`
+  ADD PRIMARY KEY (`EntityId`);
+
+--
 -- Indexen voor tabel `epg_m3ufile`
 --
 ALTER TABLE `epg_m3ufile`
@@ -149,7 +169,13 @@ ALTER TABLE `epg_channels`
 -- AUTO_INCREMENT voor een tabel `epg_config`
 --
 ALTER TABLE `epg_config`
-  MODIFY `EntityId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `EntityId` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT voor een tabel `epg_conversion`
+--
+ALTER TABLE `epg_conversion`
+  MODIFY `EntityId` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT voor een tabel `epg_m3ufile`
