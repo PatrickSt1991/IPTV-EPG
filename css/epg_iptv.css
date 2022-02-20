@@ -65,6 +65,7 @@
 input[type=text] {
 	border: none;
 	border-bottom: 2px solid #009879;
+	width: 350px;
 }
 
 .w3-input{
@@ -125,3 +126,37 @@ input[type=text] {
 .dropdown_group:hover .dropbtn {
   background-color: #009879 !important;
 }
+
+
+.alert-box {
+	padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;  
+}
+
+.success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    display: none;
+}
+
+
+/* LOADING SPINNER */
+
+.buttonload {
+  background-color: #04AA6D; /* Green background */
+  border: none; /* Remove borders */
+  color: white; /* White text */
+  padding: 12px 24px; /* Some padding */
+  font-size: 16px; /* Set a font-size */
+}
+
+/* Add a right margin to each icon */
+.fa {
+  margin-left: -12px;
+  margin-right: 8px;
+}
+
+/* LOADING SPINNER */

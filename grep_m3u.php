@@ -47,25 +47,23 @@
 		//m3uLine[4] = TV Channel URL	-> URL Stream
 		
 		foreach($m3uMatch as $m3uLine) {
-			//if((strpos($m3uLine[3], 'NL| NEDERLAND') !== FALSE) || (strpos($m3uLine[3], 'ADULT') !== FALSE)){
-				if (strpos($m3uLine[1], '#####') === FALSE) {
-					$m3uChannelName = rtrim($m3uLine[1]);
-					$m3uChannelName = mysqli_real_escape_string($conn, $m3uChannelName);
-					$sql_insertFileValue = "INSERT INTO epg_m3ufile (m3uChannelName) VALUES ('" . $m3uChannelName . "')";
-					$resultM3U = mysqli_query($conn, $sql_insertFileValue);
-						
-					$sql_insertStreamInfo = "INSERT INTO m3u_channels (tvg_name, tvg_logo, group_title, stream_url) VALUES ('" . $m3uChannelName . "', '" . $m3uLine[2] . "','" . $m3uLine[3] . "','" . $m3uLine[4] . "')";
+			if (strpos($m3uLine[1], '#####') === FALSE) {
+				$m3uChannelName = rtrim($m3uLine[1]);
+				$m3uChannelName = mysqli_real_escape_string($conn, $m3uChannelName);
+				$sql_insertFileValue = "INSERT INTO epg_m3ufile (m3uChannelName) VALUES ('" . $m3uChannelName . "')";
+				$resultM3U = mysqli_query($conn, $sql_insertFileValue);
 					
-					$resultStreamInfo = mysqli_query($conn, $sql_insertStreamInfo);
-					
-					if((!empty($resultM3U)) && (!empty($resultStreamInfo))){
-						$affectedRowM3u ++;
-						$affectedStream ++;
-					}else{
-						$error_message = mysqli_error($conn) . "\n";
-					}	
-				}
-			//}
+				$sql_insertStreamInfo = "INSERT INTO m3u_channels (tvg_name, tvg_logo, group_title, stream_url) VALUES ('" . $m3uChannelName . "', '" . $m3uLine[2] . "','" . $m3uLine[3] . "','" . $m3uLine[4] . "')";
+				
+				$resultStreamInfo = mysqli_query($conn, $sql_insertStreamInfo);
+				
+				if((!empty($resultM3U)) && (!empty($resultStreamInfo))){
+					$affectedRowM3u ++;
+					$affectedStream ++;
+				}else{
+					$error_message = mysqli_error($conn) . "\n";
+				}	
+			}
 		}
 
 		

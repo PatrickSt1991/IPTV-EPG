@@ -2,6 +2,9 @@
 <link href="css/styles.css" rel="stylesheet" />
 <link rel="stylesheet" href="css/epg_iptv.css">
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
 include '_config.php';
 
 ignore_user_abort(true);
@@ -34,9 +37,9 @@ if ($continue == true){
 		unlink($customEpgFile);
 	}
 
-	$fetch_programEpg = "SELECT * FROM epg_program";
+	$fetch_programEpg = "SELECT epg_program.EntityId, programStartTime, programEndTime, programChannel, programTitle, programTitleLang, programIcon FROM epg_program INNER JOIN m3u_channels ON tvg_name = programChannel WHERE active = 1";
 
-	if($result_programEpg = mysqli_query($conn, $fetch_programEpg)){
+	if($result_programEpg = mysqli_query($conn, $fetch_programEpg) or die ("error in query".mysqli_error())){
 		while ($programEpg_row = mysqli_fetch_assoc($result_programEpg)){
 			array_push($epgProgramArray, $programEpg_row);
 			
@@ -49,7 +52,8 @@ if ($continue == true){
 		mysqli_free_result($result_programEpg);
 	}
 
-	$fetch_channelEpg = "SELECT * FROM epg_channels";
+	$fetch_channelEpg = "SELECT epg_channels.EntityId, channelId, channelName, channelIcon, channelUrl FROM epg_channels INNER JOIN m3u_channels ON tvg_name = channelName WHERE active = 1";
+
 
 	if($result_channelEpg = mysqli_query($conn, $fetch_channelEpg)){
 		while ($channelEpg_row = mysqli_fetch_assoc($result_channelEpg)){

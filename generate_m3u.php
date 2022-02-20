@@ -17,9 +17,7 @@
 	}
 
 	if ($continue == true){
-		$epgGroupTitle = mysqli_query($conn, "SELECT DISTINCT(group_title) as GroupTitle FROM m3u_channels") or die ("Error is query: ".mysqli_error());
-		
-		$showResult = mysqli_query($conn, "SELECT * FROM m3u_channels");
+		$epgGroupTitle = mysqli_query($conn, "SELECT DISTINCT(group_title) as GroupTitle FROM m3u_channels ORDER BY GroupTitle ASC") or die ("Error is query: ".mysqli_error());
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,24 +34,26 @@
         </nav>
         <section class="pt-4">
             <div class="container px-lg-5">
+			<div id="successBox" class="alert-box success"></div>
 				<table class="styled-table">
 					<thead>
 						<tr>
 							<th>Id</th>
 							<th>TV Channel Name</th>
 							<th>
-								<select class="form-select" onchange="filterGroup(this.value);" aria-label="Default select example">
+								<select class="form-select" onchange="filterGroup(this.value);">
 									<option disabled selected>Country Filter</option>
 									<option value="ALL">ALL</option>
 									  <?php
 									  while($groups = mysqli_fetch_array($epgGroupTitle))
 									  {
-										  echo '<option value="' . $groups['GroupTitle'] . '">' . $groups['GroupTitle'] . '</option>';
+										  echo '<option id="' . $groups['GroupTitle'] . '" value="' . $groups['GroupTitle'] . '">' . $groups['GroupTitle'] . '</option>';
 									  }
 									  ?>
 								</select>
 							</th>
-							<th>Activate</th>
+							<th>(De)Select All&nbsp;&nbsp;<input class="form-check-input" id="AllSelect" type="checkbox" onchange="setMultiChannelStatus(this.value)" value="groupAll"></th>
+							
 						</tr>
 					</thead>
 					<tbody class="unfilterClass">
@@ -68,9 +68,9 @@
 								echo '<td>' . $row['group_title'] . '</td>';
 								if($row['active'] == 1)
 								{
-								echo '<td><div class="form-check">
-											<input class="form-check-input" type="checkbox" onchange="setChannelStatus('.$row['EntityId'].',0)" value="' . $row['EntityId'] . '" id="flexCheckDefault" checked>
-									</div></td>';
+									echo '<td><div class="form-check">
+												<input class="form-check-input" type="checkbox" onchange="setChannelStatus('.$row['EntityId'].',0)" value="' . $row['EntityId'] . '" id="flexCheckDefault" checked>
+										</div></td>';
 								} else {
 									echo '<td><div class="form-check">
 												<input class="form-check-input" type="checkbox" onchange="setChannelStatus('.$row['EntityId'].',1)" value="' . $row['EntityId'] . '" id="flexCheckDefault">
@@ -85,6 +85,18 @@
 			</div>
 		</section>
 		<script>
+
+			function setMultiChannelStatus(groupName)
+			{
+				var xmlhttp = new XMLHttpRequest();
+				xmlhttp.onreadystatechange = function() {};
+				xmlhttp.open("GET", "epg_actions.php?groupId="+groupName+"&action=groupactivate", true);
+				xmlhttp.send();
+				$( "div.success" ).fadeIn( 500 ).delay( 2000 ).fadeOut( 400 );
+				$("#successBox").html("TV Channels for group: " + groupName + " are activated!");
+				$("#AllSelect").prop('checked', false);
+			}
+		
 			function setChannelStatus(channelId, checkStatus)
 			{
 				var xmlhttp = new XMLHttpRequest();
@@ -93,13 +105,14 @@
 				xmlhttp.send();
 			}
 
-			 function filterGroup(isi){
+			function filterGroup(isi){
 				$.ajax({
 					url: "http://<?php echo $_SERVER['SERVER_NAME']; ?>/iptv/epg_actions.php?action=filter",
 					type: 'POST',
 					data: "groupSearch=" + isi,
 					success: function(data){
-						$(".unfilterClass").html(data);				
+						$(".unfilterClass").html(data);		
+						$("#AllSelect").val(isi);
 					}
 				});
 			 }

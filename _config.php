@@ -1,10 +1,6 @@
 <?php
-	ini_set('display_errors', 1);
-	ini_set('display_startup_errors', 1);
-	error_reporting(E_ALL);
-
 	$hostname = 'localhost';
-	$database = 'iptv';
+	$database = '********';
 	$username = '********';
 	$password = '********';
 
@@ -26,5 +22,8 @@
 	$m3u_file = $epg_value[1];
 	$epg_url = $epg_value[2];
 	$customEpgFile = $epg_value[3];
-
+	$original_m3u_file = $epg_value[4];
+	$epg_conversion_table = $epg_value[5];
+	$customM3uFile = $epg_value[6];
+	$m3u_url = $epg_value[7];
 ?>

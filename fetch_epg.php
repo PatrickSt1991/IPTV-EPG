@@ -41,12 +41,18 @@ if ($continue == true){
 		$GhostCustomName = mysqli_fetch_assoc($sqlGhostChannel_result);
 		$CustomGhostName = $GhostCustomName['customName'];
 		
-		if(isset($CustomGhostName)){
-			print($CustomGhostName);
-		}
-		
 		if(!isset($CustomGhostName)){
-			$sqlUpdateChannel = "SELECT m3uChannelName FROM epg_m3ufile WHERE m3uChannelName LIKE '%" . $channel_name . "%' OR guidChannelName LIKE '%" . $channel_name ."%' ORDER BY EntityId DESC LIMIT 1";
+
+			//$sqlUpdateChannel = "SELECT m3uChannelName FROM epg_m3ufile WHERE m3uChannelName NOT LIKE '%S0%E0%' AND m3uChannelName LIKE '%" . $channel_name . "%' OR guidChannelName LIKE '%" . $channel_name ."%' ORDER BY EntityId DESC LIMIT 1";
+
+			$sqlUpdateChannel = "SELECT epg_m3ufile.EntityId, epg_m3ufile.m3uChannelName, epg_m3ufile.guidChannelName FROM epg_m3ufile 
+										INNER JOIN m3u_channels ON m3uChannelName = tvg_name
+										WHERE m3uChannelName NOT LIKE '%S0%E0%'
+										AND active = 1
+										AND m3uChannelName LIKE '%" . $channel_name ."%' 
+										OR guidChannelName LIKE '%" . $channel_name ."%' 
+										ORDER BY EntityId ASC LIMIT 1";
+			
 			$sqlUpdateChannel_result = mysqli_query($conn, $sqlUpdateChannel);
 			$channel_name_m3u = mysqli_fetch_array($sqlUpdateChannel_result);
 			$channel_name_m3u = $channel_name_m3u['m3uChannelName'];
@@ -56,7 +62,7 @@ if ($continue == true){
 		}else{
 			$channel_name = $CustomGhostName;
 		}
-		
+
 		$sql_insertChannel = "INSERT INTO epg_channels (channelId, channelName, channelIcon, channelUrl) VALUES ('" . $channel_id . "', '" . $channel_name . "', '" . $channel_icon . "', '" . $channel_url . "')";
 
 		$resultChannel = mysqli_query($conn, $sql_insertChannel);
@@ -149,3 +155,4 @@ if ($affectedRowChannel > 0 && $affectedRowProgram > 0) {
 		<?php } ?>
 	</div>
 </section>
+<div class="modal"><!-- Place at bottom of page --></div>
