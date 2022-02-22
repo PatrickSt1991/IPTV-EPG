@@ -2,8 +2,6 @@
 <link href="css/styles.css" rel="stylesheet" />
 <link rel="stylesheet" href="css/epg_iptv.css">
 <?php
-error_reporting(E_ALL);
-ini_set("display_errors", 1);
 
 include '_config.php';
 
@@ -37,7 +35,7 @@ if ($continue == true){
 		unlink($customEpgFile);
 	}
 
-	$fetch_programEpg = "SELECT epg_program.EntityId, programStartTime, programEndTime, programChannel, programTitle, programTitleLang, programIcon FROM epg_program INNER JOIN m3u_channels ON tvg_name = programChannel WHERE active = 1";
+	$fetch_programEpg = "SELECT epg_program.EntityId, programStartTime, programEndTime, programChannel, tvg_name, programTitle, programTitleLang, programIcon FROM epg_program INNER JOIN m3u_channels ON tvg_name LIKE CONCAT('%', programChannel, '%') WHERE active = 1";
 
 	if($result_programEpg = mysqli_query($conn, $fetch_programEpg) or die ("error in query".mysqli_error())){
 		while ($programEpg_row = mysqli_fetch_assoc($result_programEpg)){
@@ -52,7 +50,7 @@ if ($continue == true){
 		mysqli_free_result($result_programEpg);
 	}
 
-	$fetch_channelEpg = "SELECT epg_channels.EntityId, channelId, channelName, channelIcon, channelUrl FROM epg_channels INNER JOIN m3u_channels ON tvg_name = channelName WHERE active = 1";
+	$fetch_channelEpg = "SELECT epg_channels.EntityId, channelId, channelName, tvg_name, channelIcon, channelUrl FROM epg_channels INNER JOIN m3u_channels ON tvg_name LIKE CONCAT('%', channelName, '%') WHERE active = 1";
 
 
 	if($result_channelEpg = mysqli_query($conn, $fetch_channelEpg)){
@@ -86,6 +84,8 @@ function createXMLfile($epgProgramArray, $epgChannelArray, $customEpgFile){
 
 	foreach($epgChannelArray as $channel){
 		//TV Channels variables
+		$channelId = $channel['tvg_name'];
+		$channelDisplayName = $channel['tvg_name'];
 		$channelId = $channel['channelName'];
 		$channelDisplayName = $channel['channelName'];
 		$channelIconSrc = $channel['channelIcon'];
@@ -110,7 +110,8 @@ function createXMLfile($epgProgramArray, $epgChannelArray, $customEpgFile){
 	
 	foreach($epgProgramArray as $program){
 		//TV Program variables
-		$programChannel = $program['programChannel'];
+		$programChannel = $program['tvg_name'];
+		//$programChannel = $program['programChannel'];
 		$programTitle = $program['programTitle'];
 		$programTitleLang = $program['programTitleLang'];
 		$programStartTime = $program['programStartTime'];
@@ -165,8 +166,6 @@ function createXMLfile($epgProgramArray, $epgChannelArray, $customEpgFile){
 			if ($continue == true){
 			echo $messageChannel ."<br/>". $messageProgram; 
 			}?>
-			<br/><br/>
-			Enjoy the Power of Patrick EPG!
 		</div>
 		<?php 
 		if (! empty($error_message)) { ?>

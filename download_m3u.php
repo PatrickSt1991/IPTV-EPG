@@ -36,7 +36,7 @@
 			$error_message = "Could not connect to server. Check username and password";
 		}
 
-		$fp = fopen($customM3uFile, 'w');
+		$fp = fopen($m3u_file, 'w');
 		fwrite($fp, $response);
 		fclose($fp);
 		$message = "Downloaded the M3U file!";
