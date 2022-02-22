@@ -29,6 +29,7 @@
 	if ($m3uTableCheck['ChannelCount'] > 0){ 
 		$error_message = "Channels and Streams are already ripped from the m3u file! <br/> Truncate the table if you wish to start again.";
 		$continue = false;
+		$truncate = true;
 	}
 	
 	if($m3u_file == ''){
@@ -87,9 +88,27 @@ if($continue == true){
 		<?php 
 		}
 		if (!empty($error_message)) { ?>
-		<div class="error-message">
+		<div id="truncated" class="error-message">
 			<?php echo nl2br($error_message); ?>
 		</div>
+		<?php } 
+		if ($truncate == true){?>
+		<button type="button" onclick="truncateTables()" class="btn btn-danger">Truncate epg_m3ufile & m3u_channels tables</button>
 		<?php } ?>
+		
 	</div>
 </section>
+<script>
+	function truncateTables()
+	{
+		var xmlhttp = new XMLHttpRequest();
+		xmlhttp.onreadystatechange = function() {
+			if(xmlhttp.readyState == 4 && xmlhttp.status == 200)
+			{
+				document.getElementById("truncated").innerText = 'Tables are truncated, reload this page!';
+			}
+		};
+		xmlhttp.open("GET", "epg_actions.php?action=truncate", true);
+		xmlhttp.send();
+	}
+</script>

@@ -1,4 +1,11 @@
 <?php
+
+	error_reporting(E_ALL);
+	ini_set("display_errors", 1);
+
+	ignore_user_abort(true);
+	set_time_limit(0);
+
 	$hostname = 'localhost';
 	$database = '********';
 	$username = '********';
