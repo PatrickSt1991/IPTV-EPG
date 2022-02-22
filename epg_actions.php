@@ -179,5 +179,14 @@ if($_GET['action'] == 'filterConversion'){
 		$resultFilter = true;
 	}
 	
+if($_GET['action'] == 'truncate'){
+	
+	$truncateChannels = "TRUNCATE m3u_channels;";
+	$truncateFile = "TRUNCATE epg_m3ufile;";
+
+	mysqli_query($conn, $truncateChannels);
+	mysqli_query($conn, $truncateFile);
+}
+	
 }
 ?>
