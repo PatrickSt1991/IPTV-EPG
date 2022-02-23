@@ -24,7 +24,14 @@
 			unlink($customM3uFile);
 		}
 		
-		$fetch_m3uChannels = "SELECT * FROM m3u_channels WHERE active = 1";
+		$countCheck = mysqli_query($conn, "SELECT count(EntityId) as ActiveCount FROM m3u_channels") or die ("Error is query: ".mysqli_error());
+		$countCheckResult = mysqli_fetch_assoc($countCheck);
+		
+		if($countCheckResult['ActiveCount'] > 0){
+			$fetch_m3uChannels = "SELECT * FROM m3u_channels WHERE active = 1";
+		}else{
+			$fetch_m3uChannels = "SELET * FROM m3u_channels";
+		}
 		$m3uChannelsResults = mysqli_query($conn, $fetch_m3uChannels) or die("Error in query: ".mysqli_error());
 		$resultSet = "#EXTM3U url-tvg=\"http://192.168.0.125/iptv/".$customEpgFile."\" \r\n";
 		while($row = mysqli_fetch_array($m3uChannelsResults))

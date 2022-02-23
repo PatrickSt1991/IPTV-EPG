@@ -36,7 +36,8 @@ if ($continue == true){
 		$channel_icon = mysqli_real_escape_string($conn, (string)$canal->icon['src']);
 		$channel_url = mysqli_real_escape_string($conn, (string)$canal->{'url'});
 
-		$sqlGhostChannel= "SELECT m3uChannelName FROM epg_conversion WHERE customName = '" . $channel_name . "'";
+		$sqlGhostChannel = "SELECT customName FROM epg_conversion WHERE m3uChannelName = '" . $channel_name . "'";
+		//$sqlGhostChannel= "SELECT m3uChannelName FROM epg_conversion WHERE customName = '" . $channel_name . "'";
 		$sqlGhostChannel_result = mysqli_query($conn, $sqlGhostChannel);
 		$GhostCustomName = mysqli_fetch_assoc($sqlGhostChannel_result);
 		if($GhostCustomName == false){

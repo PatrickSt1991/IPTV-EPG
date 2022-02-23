@@ -21,6 +21,8 @@
 	$affectedStream = 0;
 	
 	$continue = true;
+	$truncate = false;
+	
 	$pattern = '/^#EXTINF:.*?\btvg-name="([^"]*)".*?\btvg-logo="([^"]*)".*?\bgroup-title="([^"]*)".*\R(https?:\/\/\S*)/m';
 
 	$epgM3UChannelResult = mysqli_query($conn, "SELECT count(EntityId) as ChannelCount FROM epg_m3ufile") or die ("Error in query: ".mysqli_error()); 
