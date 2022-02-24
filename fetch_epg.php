@@ -37,17 +37,26 @@ if ($continue == true){
 		$channel_url = mysqli_real_escape_string($conn, (string)$canal->{'url'});
 
 		$sqlGhostChannel = "SELECT customName FROM epg_conversion WHERE m3uChannelName = '" . $channel_name . "'";
-		//$sqlGhostChannel= "SELECT m3uChannelName FROM epg_conversion WHERE customName = '" . $channel_name . "'";
+
 		$sqlGhostChannel_result = mysqli_query($conn, $sqlGhostChannel);
 		$GhostCustomName = mysqli_fetch_assoc($sqlGhostChannel_result);
 		if($GhostCustomName == false){
-			$sqlUpdateChannel = "SELECT epg_m3ufile.EntityId, epg_m3ufile.m3uChannelName, epg_m3ufile.guidChannelName FROM epg_m3ufile 
-										INNER JOIN m3u_channels ON m3uChannelName = tvg_name
-										WHERE m3uChannelName NOT LIKE '%S0%E0%'
-										AND active = 1
-										AND m3uChannelName LIKE '%" . $channel_name ."%' 
-										OR guidChannelName LIKE '%" . $channel_name ."%' 
-										ORDER BY EntityId ASC LIMIT 1";
+			if($epg_conversion_table == 'on'){
+				$sqlUpdateChannel = "SELECT epg_m3ufile.EntityId, epg_m3ufile.m3uChannelName, epg_m3ufile.guidChannelName FROM epg_m3ufile 
+											INNER JOIN m3u_channels ON m3uChannelName = tvg_name
+											WHERE m3uChannelName NOT LIKE '%S0%E0%'
+											AND active = 1
+											AND m3uChannelName LIKE '%" . $channel_name ."%' 
+											OR guidChannelName LIKE '%" . $channel_name ."%' 
+											ORDER BY EntityId ASC LIMIT 1";
+			}else{
+				$sqlUpdateChannel = "SELECT epg_m3ufile.EntityId, epg_m3ufile.m3uChannelName, epg_m3ufile.guidChannelName FROM epg_m3ufile 
+														INNER JOIN m3u_channels ON m3uChannelName = tvg_name
+														WHERE m3uChannelName NOT LIKE '%S0%E0%'
+														AND m3uChannelName LIKE '%" . $channel_name ."%' 
+														OR guidChannelName LIKE '%" . $channel_name ."%' 
+														ORDER BY EntityId ASC LIMIT 1";
+			}
 			
 			$sqlUpdateChannel_result = mysqli_query($conn, $sqlUpdateChannel);
 			$channel_name_m3u = mysqli_fetch_array($sqlUpdateChannel_result);
