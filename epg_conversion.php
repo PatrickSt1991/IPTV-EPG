@@ -10,7 +10,7 @@
                 <a class="navbar-brand" href="#!">EPG Conversion table</a>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html"><i class="bi bi-sliders"></i></a></li>
+                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php"><i class="bi bi-sliders"></i></a></li>
                     </ul>
                 </div>
             </div>
@@ -22,15 +22,7 @@
 	
 	$continue = true;
 	$searchFilter = false;
-	
-	$updateCheck = mysqli_query($conn, "SELECT COUNT(epg_conversion.EntityId) AS UpdateNumber FROM epg_m3ufile INNER JOIN epg_conversion ON epg_m3ufile.m3uChannelName = epg_conversion.m3uChannelName WHERE epg_m3ufile.guidChannelName IS NULL");
-	$updateCheckResult = mysqli_fetch_assoc($updateCheck);
-	
-	if($updateCheckResult['UpdateNumber'] >= 1){
-		mysqli_query($conn, "UPDATE epg_m3ufile INNER JOIN epg_conversion ON epg_m3ufile.m3uChannelName = epg_conversion.m3uChannelName SET epg_m3ufile.guidChannelName = epg_conversion.customName");
-	}
-	
-	
+		
 	$epgGroupTitle = mysqli_query($conn, "SELECT DISTINCT(group_title) as GroupTitle FROM m3u_channels ORDER BY GroupTitle ASC") or die ("Error is query: ".mysqli_error());
 
 	$epgM3UChannelResult = mysqli_query($conn, "SELECT count(EntityId) as ChannelCount FROM epg_m3ufile") or die ("Error in query: ".mysqli_error()); 
