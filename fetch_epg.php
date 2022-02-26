@@ -28,6 +28,14 @@ if ($continue == true){
 		mysqli_query($conn, "TRUNCATE TABLE epg_channels");
 	}
 
+	$updateCheck = mysqli_query($conn, "SELECT COUNT(epg_conversion.EntityId) AS UpdateNumber FROM epg_m3ufile INNER JOIN epg_conversion ON epg_m3ufile.m3uChannelName = epg_conversion.m3uChannelName WHERE epg_m3ufile.guidChannelName IS NULL");
+	$updateCheckResult = mysqli_fetch_assoc($updateCheck);
+	
+	if($updateCheckResult['UpdateNumber'] >= 1){
+		mysqli_query($conn, "UPDATE epg_m3ufile INNER JOIN epg_conversion ON epg_m3ufile.m3uChannelName = epg_conversion.m3uChannelName SET epg_m3ufile.guidChannelName = epg_conversion.customName");
+	}
+	
+
 	$epg = simplexml_load_file($epg_url) or die ("Error: Cannot create object");
 		
 	foreach($epg->channel as $canal) {
@@ -41,8 +49,8 @@ if ($continue == true){
 		$sqlGhostChannel_result = mysqli_query($conn, $sqlGhostChannel);
 		$GhostCustomName = mysqli_fetch_assoc($sqlGhostChannel_result);
 		if($GhostCustomName == false){
-			if($epg_conversion_table == 'on'){
-				$sqlUpdateChannel = "SELECT epg_m3ufile.EntityId, epg_m3ufile.m3uChannelName, epg_m3ufile.guidChannelName FROM epg_m3ufile 
+			if($epg_conversion_table === 'on'){
+				$sqlUpdateChannel  = "SELECT epg_m3ufile.EntityId, epg_m3ufile.m3uChannelName, epg_m3ufile.guidChannelName FROM epg_m3ufile 
 											INNER JOIN m3u_channels ON m3uChannelName = tvg_name
 											WHERE m3uChannelName NOT LIKE '%S0%E0%'
 											AND active = 1
@@ -143,7 +151,7 @@ if ($affectedRowChannel > 0 && $affectedRowProgram > 0) {
 		<a class="navbar-brand" href="#!">Custom EPG XML Generator - Insert XML EPG Data to Database</a>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-				<li class="nav-item"><a class="nav-link active" aria-current="page" href="index.html"><i class="bi bi-sliders"></i></a></li>
+				<li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php"><i class="bi bi-sliders"></i></a></li>
 			</ul>
 		</div>
 	</div>

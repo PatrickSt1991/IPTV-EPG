@@ -1,15 +1,33 @@
 <?php
-
+	/******************************************************/
+	/*												   	  */
+	/* IF YOU ARE NOT USING LOGIN, PUT THIS IN COMMENT 	  */
+	/* IF YOU DO USE IT, PLEASE CHANGE autenticate.php 	  */
+	/*												   	  */
+	/******************************************************/
+	/**/ session_start();								/**/
+	/**/ 	 											/**/
+	/**/ if (!isset($_SESSION['loggedin'])) {			/**/
+	/**/ 	header('Location: login.php');				/**/
+	/**/ 	exit;										/**/
+	/**/ }												/**/				
+	/******************************************************/
+	/*												   	  */
+	/* IF YOU ARE NOT USING LOGIN, PUT THIS IN COMMENT    */
+	/* IF YOU DO USE IT, PLEASE CHANGE autenticate.php 	  */
+	/*												   	  */
+	/******************************************************/	
 	error_reporting(E_ALL);
 	ini_set("display_errors", 1);
-
+	
 	ignore_user_abort(true);
 	set_time_limit(0);
 
 	$hostname = 'localhost';
-	$database = '********';
-	$username = '********';
-	$password = '********';
+	$database = '*********';
+	$username = '*********';
+	$password = '*********';
+
 
 	$conn = mysqli_connect($hostname, $username, $password, $database);
 	if (!$conn) {
@@ -32,5 +50,7 @@
 	$original_m3u_file = $epg_value[4];
 	$epg_conversion_table = $epg_value[5];
 	$customM3uFile = $epg_value[6];
-	$m3u_url = $epg_value[7];
+	$m3u_url = $epg_value[7];	
+	$user_login_setting = $epg_value[8];
+
 ?>
