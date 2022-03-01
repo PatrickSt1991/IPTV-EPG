@@ -71,13 +71,21 @@ if(isset($_GET['action'])){
 	if ($_GET['action'] == 'setting'){
 		$configSetting = $_GET['config'];
 		$settingField = $_GET['setting'];
-
+		if(strpos($configSetting, 'get.php') !== false)
+		{
+			$configSetting_append_password = $_GET['password'];
+			$configSetting_append_type = $_GET['type'];
+			$configSetting_append_output = $_GET['output'];
+			
+			$configSetting = $configSetting."&password=".$configSetting_append_password."&type=".$configSetting_append_type."&output=".$configSetting_append_output;
+		}
+		
 		if (filter_var($configSetting, FILTER_VALIDATE_URL)) { 
 		  mysqli_query($conn, "UPDATE epg_config SET epg_value = 'download_iptv.m3u' WHERE epg_setting = 'm3u_file'");
 		}
 		
 		$settingUpdate = "UPDATE epg_config SET epg_value = '" . $configSetting . "' WHERE epg_setting = '" . $settingField . "'";
-		
+		echo($settingUpdate);
 		if (mysqli_query($conn, $settingUpdate)){
 			echo "Settings updated";
 		}else{

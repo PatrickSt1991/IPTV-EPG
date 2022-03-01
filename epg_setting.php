@@ -168,6 +168,7 @@
 							if(settingField == 'm3uurl_file')
 							{
 								document.getElementById("m3ufile").value = 'download_iptv.m3u';
+								configSetting = encodeURIComponent(configSetting);
 							}
 							
 						}
