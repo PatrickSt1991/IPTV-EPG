@@ -3,7 +3,8 @@
 <link href="css/epg_iptv.css" rel="stylesheet" >
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 	<div class="container px-lg-5">
-		<a class="navbar-brand" href="#!">Custom EPG XML Generator - Grep M3U file</a>
+		<a class="navbar-brand" href="#!">Custom EPG & M3U Generator</a>								
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"><span class="bi bi-sliders" onclick="location.href='./index.php';"></span></button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 				<li class="nav-item"><a class="nav-link active" aria-current="page" href="index.php"><i class="bi bi-sliders"></i></a></li>
