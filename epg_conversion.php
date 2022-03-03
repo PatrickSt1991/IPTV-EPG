@@ -24,8 +24,11 @@
 	$continue = true;
 	$searchFilter = false;
 		
-	$epgGroupTitle = mysqli_query($conn, "SELECT DISTINCT(group_title) as GroupTitle FROM m3u_channels ORDER BY GroupTitle ASC") or die ("Error is query: ".mysqli_error());
-
+	if($epg_conversion_table === 'on'){
+		$epgGroupTitle = mysqli_query($conn, "SELECT DISTINCT(group_title) as GroupTitle FROM m3u_channels WHERE active = 1 ORDER BY GroupTitle ASC") or die ("Error is query: ".mysqli_error());
+	}else{		
+		$epgGroupTitle = mysqli_query($conn, "SELECT DISTINCT(group_title) as GroupTitle FROM m3u_channels ORDER BY GroupTitle ASC") or die ("Error is query: ".mysqli_error());
+	}
 	$epgM3UChannelResult = mysqli_query($conn, "SELECT count(EntityId) as ChannelCount FROM epg_m3ufile") or die ("Error in query: ".mysqli_error()); 
 	$m3uTableCheck = mysqli_fetch_assoc($epgM3UChannelResult);
 
