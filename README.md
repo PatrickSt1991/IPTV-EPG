@@ -27,3 +27,9 @@ Just look through the settings and pages, you also have the ability to put manua
   <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/PatrickSt1991/IPTV-EPG/main/index.png"><img src="https://github.com/PatrickSt1991/IPTV-EPG/blob/main/index.png?raw=true" width="350"></a>
   <a target="_blank" rel="noopener noreferrer" href="https://raw.githubusercontent.com/PatrickSt1991/IPTV-EPG/main/settings.png"><img src="https://github.com/PatrickSt1991/IPTV-EPG/blob/main/settings.png?raw=true" width="350"></a>
 </p>
+
+<p>
+ Default Username: test
+ <br/>
+ Default Password: test
+</p>
